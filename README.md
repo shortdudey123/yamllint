@@ -8,6 +8,8 @@ Checks YAML files for correct syntax.  Currently it checks for:
  * Valid YAML syntax
  * Overlapping key definitions in YAML files, where the last definition would win
 
+This is a YAML version of [jsonlint](https://github.com/dougbarth/jsonlint)
+
 ## Installation
 
 Add this line to your application's Gemfile:
