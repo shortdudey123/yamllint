@@ -25,7 +25,58 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### CLI
+
+You can run yamllint against a set of files in the command line. Any errors will be printed and the process will exit with a non-zero exit code.
+
+```
+$ yamllint spec/data/*
+spec/data/empty.yaml
+  The YAML should not be an empty string
+spec/data/invalid.yaml
+  (<unknown>): found character that cannot start any token while scanning for the next token at line 1 column 6
+spec/data/overlapping_keys.yaml
+  The same key is defined more than once: foo
+spec/data/overlapping_keys_complex.yaml
+  The same key is defined more than once: foo
+spec/data/overlapping_keys_deep.yaml
+  The same key is defined more than once: foo
+spec/data/spaces.yaml
+  The YAML should not just be spaces
+$
+```
+
+### Rake task
+
+You can integrate yamllint into your build process by adding a Rake task to your project
+
+```ruby
+require 'yamllint/rake_task'
+YamlLint::RakeTask.new do |t|
+  t.paths = %w(
+    spec/**/*.yaml
+  )
+end
+```
+
+Then run the rake task.
+
+```
+$ rake yamllint
+spec/data/empty.yaml
+  The YAML should not be an empty string
+spec/data/invalid.yaml
+  (<unknown>): found character that cannot start any token while scanning for the next token at line 1 column 6
+spec/data/overlapping_keys.yaml
+  The same key is defined more than once: foo
+spec/data/overlapping_keys_complex.yaml
+  The same key is defined more than once: foo
+spec/data/overlapping_keys_deep.yaml
+  The same key is defined more than once: foo
+spec/data/spaces.yaml
+  The YAML should not just be spaces
+$
+```
 
 ## Contributing
 
