@@ -12,7 +12,7 @@ end
 
 desc 'rubocop compliancy checks'
 RuboCop::RakeTask.new(:rubocop) do |t|
-  t.patterns = %w{ **/*.rb }
+  t.patterns = %w{ lib/**/*.rb lib/*.rb spec/*.rb }
   t.fail_on_error = false
 end
 
