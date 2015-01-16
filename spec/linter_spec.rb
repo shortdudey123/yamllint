@@ -25,11 +25,9 @@ describe 'YamlLint::Linter' do
 
   it 'should display errors for empty YAML file' do
     linter.check(spec_data('empty.yaml'))
-    error_array = {
-      '/Users/grantridder/github/yamllint/spec/data/empty.yaml' =>
-      ['The YAML should not be an empty string']
-    }
-    expect(linter.display_errors).to eq(error_array)
+    error_array = linter.display_errors
+    error_array_expected = ['The YAML should not be an empty string']
+    expect(error_array.first[1]).to eq(error_array_expected)
   end
 
   it 'should be happy with a multiple valid YAML files' do
