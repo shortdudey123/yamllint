@@ -81,6 +81,8 @@ spec/data/spaces.yaml
 $
 ```
 
+Optionally add `t.fail_on_error = false` in the Rakefile definition to continue on to the next rake task even if YamlLint finds errors.
+
 ## Contributing
 
 1. Fork it ( https://github.com/shortdudey123/yamllint/fork )

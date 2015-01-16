@@ -32,14 +32,17 @@ module YamlLint
         linter = lint_files(files_to_check)
       end
 
+      puts 'YamlLint found no errors' unless linter.errors?
       return unless linter.errors?
       linter.display_errors
+      puts "YAML lint found #{linter.errors_count} errors"
       @kernel.exit(1)
     end
 
     def lint_files(files_to_check)
       linter = YamlLint::Linter.new
       begin
+        puts "Checking #{files_to_check.flatten.length} files"
         linter.check_all(files_to_check)
       rescue => e
         @stderr.puts e.message
