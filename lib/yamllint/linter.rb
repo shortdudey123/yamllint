@@ -97,9 +97,6 @@ module YamlLint
     rescue YAML::SyntaxError => e
       errors_array << e.message
       false
-    rescue YAML::ParseError => e
-      errors_array << e.message
-      false
     end
 
     ###
@@ -151,8 +148,6 @@ module YamlLint
             hash_end(@last_key.last)
             is_key = false
             @last_key.pop
-          else
-            YamlLint.logger.debug { "Unknown (#{n.class})" }
           end
         end
       end
