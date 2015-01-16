@@ -1,7 +1,7 @@
 require 'bundler/gem_tasks'
 require 'rubocop/rake_task'
-
 require 'rspec/core/rake_task'
+require 'yamllint/rake_task'
 
 RSpec::Core::RakeTask.new(:spec)
 
@@ -13,7 +13,11 @@ end
 desc 'rubocop compliancy checks'
 RuboCop::RakeTask.new(:rubocop) do |t|
   t.patterns = %w{ lib/**/*.rb lib/*.rb spec/*.rb }
-  t.fail_on_error = false
 end
 
-task default: [:rubocop, :spec]
+desc 'yamllint rake test'
+YamlLint::RakeTask.new do |t|
+  t.paths = %w{ spec/data/valid* }
+end
+
+task default: [:rubocop, :yamllint, :spec]
