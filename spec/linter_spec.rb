@@ -13,6 +13,30 @@ describe 'YamlLint::Linter' do
     expect(linter.check(spec_data('valid_complex.yaml'))).to be(true)
   end
 
+  it 'should have 0 error count with a valid YAML file' do
+    linter.check(spec_data('valid.yaml'))
+    expect(linter.errors_count).to eq(0)
+  end
+
+  it 'should have 1 error count with a empty YAML file' do
+    linter.check(spec_data('empty.yaml'))
+    expect(linter.errors_count).to eq(1)
+  end
+
+  it 'should display errors for empty YAML file' do
+    linter.check(spec_data('empty.yaml'))
+    error_array = {
+      '/Users/grantridder/github/yamllint/spec/data/empty.yaml' =>
+      ['The YAML should not be an empty string']
+    }
+    expect(linter.display_errors).to eq(error_array)
+  end
+
+  it 'should be happy with a multiple valid YAML files' do
+    linter.check_all([spec_data('valid.yaml'), spec_data('valid_complex.yaml')])
+    expect(linter.errors?).to be(false)
+  end
+
   it 'should be unhappy with an invalid YAML file extention' do
     expect(linter.check(spec_data('wrong_extention.txt'))).to be(false)
   end
