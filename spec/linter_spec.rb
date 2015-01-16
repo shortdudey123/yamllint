@@ -11,6 +11,7 @@ describe 'YamlLint::Linter' do
   it 'should be happy with a valid YAML file' do
     expect(linter.check(spec_data('valid.yaml'))).to be(true)
     expect(linter.check(spec_data('valid_complex.yaml'))).to be(true)
+    expect(linter.check(spec_data('valid_very_complex.yaml'))).to be(true)
   end
 
   it 'should have 0 error count with a valid YAML file' do
