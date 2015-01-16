@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/shortdudey123/yamllint.svg?branch=master)](https://travis-ci.org/shortdudey123/yamllint)
 [![Gem Version](http://img.shields.io/gem/v/yamllint.svg)](https://rubygems.org/gems/yamllint)
-[![Coverage Status](https://coveralls.io/repos/shortdudey123/yamllint/badge.svg?branch=master)](https://coveralls.io/r/shortdudey123/yamllint?branch=master)
+[![Coverage Status](https://img.shields.io/coveralls/shortdudey123/yamllint/master.svg)](https://coveralls.io/r/shortdudey123/yamllint?branch=master)
 [![Code Climate](https://codeclimate.com/github/shortdudey123/yamllint/badges/gpa.svg)](https://codeclimate.com/github/shortdudey123/yamllint)
-[![Dependency Status](https://gemnasium.com/shortdudey123/yamllint.svg)](https://gemnasium.com/shortdudey123/yamllint)
+[![Dependency Status](https://img.shields.io/gemnasium/shortdudey123/yamllint.svg)](https://gemnasium.com/shortdudey123/yamllint)
 
 Checks YAML files for correct syntax.  Currently it checks for:
 
