@@ -13,6 +13,10 @@ describe 'YamlLint::Linter' do
     expect(linter.check(spec_data('valid_complex.yaml'))).to be(true)
   end
 
+  it 'should be unhappy with an invalid YAML file extention' do
+    expect(linter.check(spec_data('wrong_extention.txt'))).to be(false)
+  end
+
   it 'should be unhappy with an invalid YAML file' do
     expect(linter.check(spec_data('invalid.yaml'))).to be(false)
   end

@@ -1,6 +1,5 @@
 require 'yaml'
 require 'set'
-require 'pry'
 
 require 'yamllint/errors'
 
@@ -23,6 +22,11 @@ module YamlLint
       fail FileNotFoundError, "#{path}: no such file" unless File.exist?(path)
 
       valid = false
+      unless check_filename(path)
+        errors[path] = ['File extention must be .yaml or .yml']
+        return valid
+      end
+
       File.open(path, 'r') do |f|
         error_array = []
         valid = check_data(f.read, error_array)
@@ -46,6 +50,10 @@ module YamlLint
       !errors.empty?
     end
 
+    def errors_count
+      errors.length
+    end
+
     def display_errors
       errors.each do |path, errors|
         puts path
@@ -56,6 +64,12 @@ module YamlLint
     end
 
     private
+
+    def check_filename(filename)
+      extention = filename.split('.').last
+      return true if extention == 'yaml' || extention == 'yml'
+      false
+    end
 
     def check_data(yaml_data, errors_array)
       valid = check_not_empty(yaml_data, errors_array)

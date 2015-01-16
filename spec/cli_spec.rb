@@ -41,6 +41,11 @@ describe 'yamllint' do
     assert_failing_with('no such file')
   end
 
+  it 'should fail with an invalid YAML file extention' do
+    yamllint spec_data('wrong_extention.txt')
+    assert_failing_with('File extention must be .yaml or .yml')
+  end
+
   it 'should fail with a path that is unreadable' do
     run_simple('mkdir -p tmp')
     run_simple('touch tmp/unreadable_file.yaml')
