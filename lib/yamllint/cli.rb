@@ -18,7 +18,7 @@ module YamlLint
 
       files_to_check = @argv
 
-      no_yamls_to_check_msg = 'nead at least one YAML file to check'
+      no_yamls_to_check_msg = 'need at least one YAML file to check'
       Trollop.die no_yamls_to_check_msg if files_to_check.empty?
       lint(files_to_check)
     end

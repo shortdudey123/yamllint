@@ -72,14 +72,14 @@ module YamlLint
     end
 
     def check_data(yaml_data, errors_array)
-      valid = check_not_empty(yaml_data, errors_array)
-      valid &&= check_syntax_valid(yaml_data, errors_array)
-      valid &&= check_overlapping_keys(yaml_data, errors_array)
+      valid = check_not_empty?(yaml_data, errors_array)
+      valid &&= check_syntax_valid?(yaml_data, errors_array)
+      valid &&= check_overlapping_keys?(yaml_data, errors_array)
 
       valid
     end
 
-    def check_not_empty(yaml_data, errors_array)
+    def check_not_empty?(yaml_data, errors_array)
       if yaml_data.empty?
         errors_array << 'The YAML should not be an empty string'
         false
@@ -91,7 +91,7 @@ module YamlLint
       end
     end
 
-    def check_syntax_valid(yaml_data, errors_array)
+    def check_syntax_valid?(yaml_data, errors_array)
       YAML.load(yaml_data)
       true
     rescue YAML::SyntaxError => e
@@ -224,7 +224,7 @@ module YamlLint
       end
     end
 
-    def check_overlapping_keys(yaml_data, errors_array)
+    def check_overlapping_keys?(yaml_data, errors_array)
       overlap_detector = KeyOverlapDetector.new
       data = Psych.parser.parse(yaml_data)
 
