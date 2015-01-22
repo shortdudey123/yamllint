@@ -155,13 +155,7 @@ module YamlLint
       def hash_start(key)
         YamlLint.logger.debug { "hash_start: #{key.inspect}" }
 
-        case @complex_type.last
-        when :hash
-          @key_components.push(key)
-        when :array
-          @key_components.push(@array_positions.last)
-          @array_positions[-1] += 1
-        end
+        complex_type_start(key)
 
         @complex_type.push(:hash)
         check_for_overlap!
@@ -177,13 +171,7 @@ module YamlLint
       def array_start(key)
         YamlLint.logger.debug { "array_start: #{key.inspect}" }
 
-        case @complex_type.last
-        when :hash
-          @key_components.push(key)
-        when :array
-          @key_components.push(@array_positions.last)
-          @array_positions[-1] += 1
-        end
+        complex_type_start(key)
 
         @complex_type.push(:array)
         @array_positions.push(0)
@@ -221,6 +209,16 @@ module YamlLint
         return if @seen_keys.add?(full_key)
         YamlLint.logger.debug { "Overlapping key #{full_key.join('.')}" }
         @overlapping_keys << full_key
+      end
+
+      def complex_type_start(key)
+        case @complex_type.last
+        when :hash
+          @key_components.push(key)
+        when :array
+          @key_components.push(@array_positions.last)
+          @array_positions[-1] += 1
+        end
       end
     end
 
