@@ -67,7 +67,7 @@ module YamlLint
 
     def check_filename(filename)
       extention = filename.split('.').last
-      return true if extention == 'yaml' || extention == 'yml'
+      return true if extention == 'yaml' || extention == 'yml' || extension == 'eyaml'
       false
     end
 
