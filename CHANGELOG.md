@@ -5,6 +5,7 @@ This file is used to list changes made in each version of the YamlLint gem.
 v0.0.4 (????-??-??)
 -------------------
 - Clean up code by extracting out complex_type_start
+- Extract out valid extensions to an array
 
 v0.0.3 (2015-01-15)
 -------------------

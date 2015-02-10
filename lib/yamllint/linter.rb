@@ -8,10 +8,11 @@ module YamlLint
   # Runs the actual linting
   #
   class Linter
-    attr_reader :errors
+    attr_reader :errors, :valid_extensions
 
     def initialize
       @errors = {}
+      @valid_extensions = %w(yaml yml)
     end
 
     # Check a list of files
@@ -74,7 +75,7 @@ module YamlLint
     # Check file extension
     def check_filename(filename)
       extention = filename.split('.').last
-      return true if extention == 'yaml' || extention == 'yml'
+      return true if valid_extensions.include?(extention)
       false
     end
 
