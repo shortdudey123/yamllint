@@ -1,7 +1,6 @@
 ###
-# = Overview
 #
-# Contains YamlLint version number
+# YamlLint checks YAML files for correct syntax
 module YamlLint
   VERSION = '0.0.3'
 end

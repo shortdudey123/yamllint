@@ -14,10 +14,12 @@ module YamlLint
       @errors = {}
     end
 
+    # Check a list of files
     def check_all(*files_to_check)
       files_to_check.flatten.each { |f| check(f) }
     end
 
+    # Check a single file
     def check(path)
       fail FileNotFoundError, "#{path}: no such file" unless File.exist?(path)
 
@@ -36,6 +38,7 @@ module YamlLint
       valid
     end
 
+    # Check an IO stream
     def check_stream(io_stream)
       yaml_data = io_stream.read
       error_array = []
@@ -46,14 +49,17 @@ module YamlLint
       valid
     end
 
+    # Are there any lint errors found?
     def errors?
       !errors.empty?
     end
 
+    # Return the number of lint errors found
     def errors_count
       errors.length
     end
 
+    # Output the lint errors
     def display_errors
       errors.each do |path, errors|
         puts path
@@ -65,12 +71,14 @@ module YamlLint
 
     private
 
+    # Check file extension
     def check_filename(filename)
       extention = filename.split('.').last
       return true if extention == 'yaml' || extention == 'yml'
       false
     end
 
+    # Check the data in the file or stream
     def check_data(yaml_data, errors_array)
       valid = check_not_empty?(yaml_data, errors_array)
       valid &&= check_syntax_valid?(yaml_data, errors_array)
@@ -79,6 +87,7 @@ module YamlLint
       valid
     end
 
+    # Check that the data is not empty
     def check_not_empty?(yaml_data, errors_array)
       if yaml_data.empty?
         errors_array << 'The YAML should not be an empty string'
@@ -91,6 +100,7 @@ module YamlLint
       end
     end
 
+    # Check that the data is valid YAML
     def check_syntax_valid?(yaml_data, errors_array)
       YAML.load(yaml_data)
       true
@@ -105,6 +115,7 @@ module YamlLint
     class KeyOverlapDetector
       attr_reader :overlapping_keys
 
+      # Setup class variables
       def initialize
         @seen_keys = Set.new
         @key_components = []
@@ -114,6 +125,7 @@ module YamlLint
         @array_positions = []
       end
 
+      # Get the data and send it off for duplicate key validation
       def parse(psych_parse_data)
         data_start = psych_parse_data.handler.root.children[0].children[0]
         hash_start('')
@@ -123,6 +135,7 @@ module YamlLint
 
       private
 
+      # Recusively check for duplicate keys
       def parse_recurse(psych_parse_data, is_sequence = false)
         is_key = false
         psych_parse_data.children.each do |n|
@@ -152,6 +165,7 @@ module YamlLint
         end
       end
 
+      # Setup a new hash
       def hash_start(key)
         YamlLint.logger.debug { "hash_start: #{key.inspect}" }
 
@@ -161,6 +175,7 @@ module YamlLint
         check_for_overlap!
       end
 
+      # Tear down a hash
       def hash_end(key)
         YamlLint.logger.debug { "hash_end: #{key.inspect}" }
 
@@ -168,6 +183,7 @@ module YamlLint
         @complex_type.pop
       end
 
+      # Setup a new array
       def array_start(key)
         YamlLint.logger.debug { "array_start: #{key.inspect}" }
 
@@ -178,6 +194,7 @@ module YamlLint
         check_for_overlap!
       end
 
+      # Tear down the array
       def array_end(key)
         YamlLint.logger.debug { "array_end: #{key.inspect}" }
 
@@ -186,6 +203,7 @@ module YamlLint
         @array_positions.pop
       end
 
+      # Add a key / value pair
       def add_value(value, key)
         YamlLint.logger.debug { "add_value: #{value.inspect}, #{key.inspect}" }
 
@@ -202,6 +220,7 @@ module YamlLint
         end
       end
 
+      # Check for key overlap
       def check_for_overlap!
         full_key = @key_components.dup
         YamlLint.logger.debug { "Checking #{full_key.join('.')} for overlap" }
@@ -211,6 +230,7 @@ module YamlLint
         @overlapping_keys << full_key
       end
 
+      # Setup common hash and array elements
       def complex_type_start(key)
         case @complex_type.last
         when :hash
@@ -222,6 +242,7 @@ module YamlLint
       end
     end
 
+    # Check if there is overlapping key
     def check_overlapping_keys?(yaml_data, errors_array)
       overlap_detector = KeyOverlapDetector.new
       data = Psych.parser.parse(yaml_data)

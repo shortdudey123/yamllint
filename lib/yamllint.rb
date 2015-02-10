@@ -4,7 +4,6 @@ require 'yamllint/version'
 require 'yamllint/linter'
 
 ###
-# = Overview
 #
 # YamlLint checks YAML files for correct syntax
 module YamlLint

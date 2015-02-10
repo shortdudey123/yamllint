@@ -7,12 +7,14 @@ module YamlLint
   class CLI
     attr_reader :opts
 
+    # setup CLI options
     def initialize(argv, stdin = STDIN, stdout = STDOUT, stderr = STDERR,
       kernel = Kernel)
       @argv, @stdin, @stdout, @stderr, @kernel = argv, stdin, stdout,
                                                  stderr, kernel
     end
 
+    # Run the CLI command
     def execute!
       parse_options
 

@@ -23,6 +23,7 @@ module YamlLint
 
     private
 
+    # Rake task
     def define_task
       desc 'Run yamllint' unless ::Rake.application.last_comment
 
