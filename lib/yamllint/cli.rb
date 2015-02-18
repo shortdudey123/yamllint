@@ -1,4 +1,5 @@
 require 'trollop'
+require 'pry'
 
 module YamlLint
   ###
@@ -16,12 +17,11 @@ module YamlLint
 
     # Run the CLI command
     def execute!
-      parse_options
+      files_to_check = parse_options.leftovers
 
-      files_to_check = @argv
-
-      no_yamls_to_check_msg = 'need at least one YAML file to check'
-      Trollop.die no_yamls_to_check_msg if files_to_check.empty?
+      no_yamls_to_check_msg = "Error: need at least one YAML file to check.\n"\
+                              'Try --help for help.'
+      abort(no_yamls_to_check_msg) if files_to_check.empty?
       lint(files_to_check)
     end
 
@@ -42,7 +42,10 @@ module YamlLint
     end
 
     def lint_files(files_to_check)
-      linter = YamlLint::Linter.new(disable_ext_check: opts.disable_ext_check)
+      ext = opts.extensions.split(',') unless opts.extensions.nil?
+      linter = YamlLint::Linter.new(disable_ext_check: opts.disable_ext_check,
+                                    extensions: ext
+                                    )
       begin
         puts "Checking #{files_to_check.flatten.length} files"
         linter.check_all(files_to_check)
@@ -66,15 +69,27 @@ module YamlLint
       linter
     end
 
-    def parse_options
-      @opts = Trollop.options do
+    def setup_options
+      Trollop::Parser.new do
         banner 'Usage: yamllint [options] file1.yaml [file2.yaml ...]'
         version(YamlLint::VERSION)
 
         banner ''
         banner 'Options:'
         opt :disable_ext_check, 'Disable file extension check', default: false
+        opt :extensions, 'Add more allowed extensions (comma delimited list)',
+            type: :string
       end
+    end
+
+    def parse_options
+      p = setup_options
+
+      @opts = Trollop.with_standard_exception_handling p do
+        p.parse(@argv)
+      end
+
+      p
     end
   end
 end

@@ -4,6 +4,10 @@ require 'yamllint/linter'
 describe 'YamlLint::Linter' do
   let(:linter) { YamlLint::Linter.new }
 
+  before do
+    allow(linter).to receive(:puts)
+  end
+
   it 'should throw an exception if given a bogus path' do
     expect { linter.check('/does/not/exist') }.to raise_error
   end

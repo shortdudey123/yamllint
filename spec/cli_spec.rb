@@ -51,6 +51,11 @@ describe 'yamllint' do
     assert_success(true)
   end
 
+  it 'should pass with custom extension' do
+    yamllint "-e eyaml #{spec_data('custom_extension.eyaml')}"
+    assert_success(true)
+  end
+
   it 'should fail with a path that is unreadable' do
     run_simple('mkdir -p tmp')
     run_simple('touch tmp/unreadable_file.yaml')

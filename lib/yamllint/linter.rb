@@ -11,6 +11,7 @@ module YamlLint
     attr_reader :errors
     attr_reader :valid_extensions
     attr_reader :disable_extension_check
+    attr_reader :extensions
 
     # Initilize the linter
     # Params:
@@ -20,6 +21,9 @@ module YamlLint
       @valid_extensions = %w(yaml yml)
 
       @disable_extension_check = opts[:disable_ext_check] || false
+      @extensions = opts[:extensions]
+
+      @valid_extensions += @extensions unless @extensions.nil?
     end
 
     # Check a list of files

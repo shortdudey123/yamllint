@@ -7,6 +7,7 @@ v0.0.4 (????-??-??)
 - Clean up code by extracting out complex_type_start
 - Extract out valid extensions to an array
 - Allow disabling of the file extension check
+- Allow custom file extensions
 
 v0.0.3 (2015-01-15)
 -------------------
