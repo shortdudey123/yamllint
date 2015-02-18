@@ -54,32 +54,11 @@ $
 
 #### CLI options
 
-<table>
-  <th>
-    <td>Short</td>
-    <td>Long</td>
-    <td>Description</td>
-    <td>Default</td>
-  </th>
-  <tr>
-    <td>`-d`</td>
-    <td>`--disable-ext-check`</td>
-    <td>Disable file extension check</td>
-    <td>false</td>
-  </tr>
-  <tr>
-    <td>`-v`</td>
-    <td>`--version`</td>
-    <td>Print version and exit</td>
-    <td>false</td>
-  </tr>
-  <tr>
-    <td>`-h`</td>
-    <td>`--help`</td>
-    <td>Show help message</td>
-    <td>false</td>
-  </tr>
-</table>
+| Short | Long | Description | Default |
+| ------------- | ------------- | ------------- | ------------- |
+| `-d` | `--disable-ext-check` | Disable file extension check | `false` |
+| `-v` | `--version` | Print version and exit | `false` |
+| `-h` | `--help` | Show help message | `false` |
 
 ### Rake task
 
@@ -117,28 +96,11 @@ $
 
 Add these options similarly to the path option seen above.
 
-<table>
-  <th>
-    <td>Option</td>
-    <td>Description</td>
-    <td>Default</td>
-  </th>
-  <tr>
-    <td>`disable_ext_check`</td>
-    <td>Disable file extension check</td>
-    <td>false</td>
-  </tr>
-  <tr>
-    <td>`fail_on_error`</td>
-    <td>Continue on to the next rake task and don't fail even if YamlLint finds errors</td>
-    <td>true</td>
-  </tr>
-  <tr>
-    <td>`path`</td>
-    <td>List of files or paths to lint</td>
-    <td>nil</td>
-  </tr>
-</table>
+| Option | Description | Default |
+| ------------- | ------------- | ------------- | ------------- |
+| `disable_ext_check` | Disable file extension check | `false` |
+| `fail_on_error` | Continue on to the next rake task and don't fail even if YamlLint finds errors | `true` |
+| `path` | List of files or paths to lint | `nil` |
 
 ## Contributing
 
