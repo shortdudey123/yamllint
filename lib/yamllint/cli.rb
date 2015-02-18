@@ -73,7 +73,7 @@ module YamlLint
 
         banner ''
         banner 'Options:'
-        opt :disable_ext_check, 'Disable file extention check', default: false
+        opt :disable_ext_check, 'Disable file extension check', default: false
       end
     end
   end

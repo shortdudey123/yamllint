@@ -22,7 +22,7 @@ end
 
 desc 'yamllint rake test disabled file ext check'
 YamlLint::RakeTask.new(:yamlling_disable_ext_check) do |t|
-  t.paths = %w{ spec/data/wrong_extention.txt }
+  t.paths = %w{ spec/data/wrong_extension.txt }
   t.disable_ext_check = true
 end
 

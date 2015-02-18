@@ -36,8 +36,8 @@ describe 'YamlLint::Linter' do
     expect(linter.errors?).to be(false)
   end
 
-  it 'should be unhappy with an invalid YAML file extention' do
-    expect(linter.check(spec_data('wrong_extention.txt'))).to be(false)
+  it 'should be unhappy with an invalid YAML file extension' do
+    expect(linter.check(spec_data('wrong_extension.txt'))).to be(false)
   end
 
   it 'should be unhappy with an invalid YAML file' do

@@ -64,7 +64,7 @@ $
   <tr>
     <td>`-d`</td>
     <td>`--disable-ext-check`</td>
-    <td>Disable file extention check</td>
+    <td>Disable file extension check</td>
     <td>false</td>
   </tr>
   <tr>
@@ -125,7 +125,7 @@ Add these options similarly to the path option seen above.
   </th>
   <tr>
     <td>`disable_ext_check`</td>
-    <td>Disable file extention check</td>
+    <td>Disable file extension check</td>
     <td>false</td>
   </tr>
   <tr>
