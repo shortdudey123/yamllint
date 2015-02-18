@@ -42,7 +42,7 @@ module YamlLint
     end
 
     def lint_files(files_to_check)
-      linter = YamlLint::Linter.new
+      linter = YamlLint::Linter.new(disable_ext_check: opts.disable_ext_check)
       begin
         puts "Checking #{files_to_check.flatten.length} files"
         linter.check_all(files_to_check)
@@ -67,12 +67,13 @@ module YamlLint
     end
 
     def parse_options
-      @opts = Trollop.options(@argv) do
+      @opts = Trollop.options do
         banner 'Usage: yamllint [options] file1.yaml [file2.yaml ...]'
         version(YamlLint::VERSION)
 
         banner ''
         banner 'Options:'
+        opt :disable_ext_check, 'Disable file extention check', default: false
       end
     end
   end

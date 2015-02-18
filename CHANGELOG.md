@@ -6,6 +6,7 @@ v0.0.4 (????-??-??)
 -------------------
 - Clean up code by extracting out complex_type_start
 - Extract out valid extensions to an array
+- Allow disabling of the file extention check
 
 v0.0.3 (2015-01-15)
 -------------------
@@ -16,7 +17,6 @@ v0.0.3 (2015-01-15)
 v0.0.2 (2015-01-15)
 -------------------
 - Fix rake_task filename
-
 
 v0.0.1 (2015-01-15)
 -------------------

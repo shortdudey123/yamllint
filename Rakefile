@@ -20,4 +20,10 @@ YamlLint::RakeTask.new do |t|
   t.paths = %w{ spec/data/valid* }
 end
 
-task default: [:rubocop, :yamllint, :spec]
+desc 'yamllint rake test disabled file ext check'
+YamlLint::RakeTask.new(:yamlling_disable_ext_check) do |t|
+  t.paths = %w{ spec/data/wrong_extention.txt }
+  t.disable_ext_check = true
+end
+
+task default: [:rubocop, :yamllint, :yamlling_disable_ext_check, :spec]
