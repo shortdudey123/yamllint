@@ -12,11 +12,13 @@ module YamlLint
     attr_accessor :paths
     attr_accessor :fail_on_error
     attr_accessor :disable_ext_check
+    attr_accessor :extensions
 
     def initialize(name = :yamllint)
       @name = name
       @fail_on_error = true
       @disable_ext_check = false
+      @extensions = nil
 
       yield self if block_given?
 
@@ -36,7 +38,8 @@ module YamlLint
 
         puts "Checking #{files_to_check.flatten.length} files"
 
-        linter = ::YamlLint::Linter.new(disable_ext_check: disable_ext_check)
+        linter = ::YamlLint::Linter.new(disable_ext_check: disable_ext_check,
+                                        extensions: extensions)
         linter.check_all(files_to_check)
 
         if linter.errors?
