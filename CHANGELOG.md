@@ -2,7 +2,7 @@ YamlLint gem CHANGELOG
 ======================
 This file is used to list changes made in each version of the YamlLint gem.
 
-v0.0.4 (????-??-??)
+v0.0.4 (2015-02-17)
 -------------------
 - Clean up code by extracting out complex_type_start
 - Extract out valid extensions to an array
