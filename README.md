@@ -52,6 +52,14 @@ spec/data/spaces.yaml
 $
 ```
 
+#### CLI options
+
+| Short | Long | Description | Default |
+| ------------- | ------------- | ------------- | ------------- |
+| `-d` | `--disable-ext-check` | Disable file extension check | `false` |
+| `-v` | `--version` | Print version and exit | `false` |
+| `-h` | `--help` | Show help message | `false` |
+
 ### Rake task
 
 You can integrate yamllint into your build process by adding a Rake task to your project
@@ -84,7 +92,15 @@ spec/data/spaces.yaml
 $
 ```
 
-Optionally add `t.fail_on_error = false` in the Rakefile definition to continue on to the next rake task even if YamlLint finds errors.
+#### Rake task options
+
+Add these options similarly to the path option seen above.
+
+| Option | Description | Default |
+| ------------- | ------------- | ------------- | ------------- |
+| `disable_ext_check` | Disable file extension check | `false` |
+| `fail_on_error` | Continue on to the next rake task and don't fail even if YamlLint finds errors | `true` |
+| `path` | List of files or paths to lint | `nil` |
 
 ## Contributing
 

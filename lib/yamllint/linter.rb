@@ -8,11 +8,18 @@ module YamlLint
   # Runs the actual linting
   #
   class Linter
-    attr_reader :errors, :valid_extensions
+    attr_reader :errors
+    attr_reader :valid_extensions
+    attr_reader :disable_extension_check
 
-    def initialize
+    # Initilize the linter
+    # Params:
+    # +disable_ext_check+:: Disables file extension check (optional, false)
+    def initialize(opts = {})
       @errors = {}
       @valid_extensions = %w(yaml yml)
+
+      @disable_extension_check = opts[:disable_ext_check] || false
     end
 
     # Check a list of files
@@ -25,9 +32,11 @@ module YamlLint
       fail FileNotFoundError, "#{path}: no such file" unless File.exist?(path)
 
       valid = false
-      unless check_filename(path)
-        errors[path] = ['File extention must be .yaml or .yml']
-        return valid
+      unless disable_extension_check
+        unless check_filename(path)
+          errors[path] = ['File extension must be .yaml or .yml']
+          return valid
+        end
       end
 
       File.open(path, 'r') do |f|
@@ -74,8 +83,8 @@ module YamlLint
 
     # Check file extension
     def check_filename(filename)
-      extention = filename.split('.').last
-      return true if valid_extensions.include?(extention)
+      extension = filename.split('.').last
+      return true if valid_extensions.include?(extension)
       false
     end
 
