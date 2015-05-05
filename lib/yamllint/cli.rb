@@ -11,8 +11,11 @@ module YamlLint
     # setup CLI options
     def initialize(argv, stdin = STDIN, stdout = STDOUT, stderr = STDERR,
       kernel = Kernel)
-      @argv, @stdin, @stdout, @stderr, @kernel = argv, stdin, stdout,
-                                                 stderr, kernel
+      @argv = argv
+      @stdin = stdin
+      @stdout = stdout
+      @stderr = stderr
+      @kernel = kernel
     end
 
     # Run the CLI command
@@ -45,7 +48,7 @@ module YamlLint
       ext = opts.extensions.split(',') unless opts.extensions.nil?
       linter = YamlLint::Linter.new(disable_ext_check: opts.disable_ext_check,
                                     extensions: ext
-                                    )
+                                   )
       begin
         puts "Checking #{files_to_check.flatten.length} files"
         linter.check_all(files_to_check)
