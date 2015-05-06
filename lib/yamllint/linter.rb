@@ -133,7 +133,7 @@ module YamlLint
       def initialize
         @seen_keys = Set.new
         @key_components = []
-        @last_key = []
+        @last_key = ['']
         @overlapping_keys = Set.new
         @complex_type = []
         @array_positions = []
