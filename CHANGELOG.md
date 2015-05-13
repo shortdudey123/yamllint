@@ -2,7 +2,7 @@ YamlLint gem CHANGELOG
 ======================
 This file is used to list changes made in each version of the YamlLint gem.
 
-v0.0.6 (2015--??-??)
+v0.0.6 (2015-05-13)
 -------------------
 - **[ISSUE #7](https://github.com/shortdudey123/yamllint/issues/7)** - Detects dupe keys on arrays of hashes (**Proper fix**)
 
