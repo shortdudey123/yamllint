@@ -141,10 +141,8 @@ module YamlLint
 
       # Get the data and send it off for duplicate key validation
       def parse(psych_parse_data)
-        data_start = psych_parse_data.handler.root.children[0].children[0]
-        hash_start('')
+        data_start = psych_parse_data.handler.root.children[0]
         parse_recurse(data_start)
-        hash_end('')
       end
 
       private
