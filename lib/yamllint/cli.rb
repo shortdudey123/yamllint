@@ -10,7 +10,7 @@ module YamlLint
 
     # setup CLI options
     def initialize(argv, stdin = STDIN, stdout = STDOUT, stderr = STDERR,
-      kernel = Kernel)
+                   kernel = Kernel)
       @argv = argv
       @stdin = stdin
       @stdout = stdout
