@@ -4,7 +4,7 @@ Coveralls.wear!
 require 'rspec'
 
 require 'aruba'
-require 'aruba/api'
+require 'aruba/rspec'
 
 require 'yamllint'
 
@@ -22,7 +22,7 @@ end
 #
 module CliSpecHelpers
   def yamllint(args = nil)
-    run_simple("#{yamllint_bin} #{args}", false)
+    run_simple("#{yamllint_bin} #{args}", fail_on_error: false)
   end
 
   def yamllint_bin

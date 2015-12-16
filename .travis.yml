@@ -2,8 +2,8 @@ language: ruby
 cache: bundler
 rvm:
   - 2.0.0
-  - 2.1.5
-  - 2.2.0
+  - 2.1.6
+  - 2.2.3
 branches:
   only:
     - master
