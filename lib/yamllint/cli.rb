@@ -31,11 +31,11 @@ module YamlLint
     private
 
     def lint(files_to_check)
-      if files_to_check == ['-']
-        linter = lint_stream
-      else
-        linter = lint_files(files_to_check)
-      end
+      linter = if files_to_check == ['-']
+                 lint_stream
+               else
+                 lint_files(files_to_check)
+               end
 
       puts 'YamlLint found no errors' unless linter.errors?
       return unless linter.errors?
