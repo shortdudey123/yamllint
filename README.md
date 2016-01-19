@@ -103,6 +103,7 @@ Add these options similarly to the path option seen above.
 | `extensions` | Add more allowed extensions (list)| `nil` |
 | `fail_on_error` | Continue on to the next rake task and don't fail even if YamlLint finds errors | `true` |
 | `path` | List of files or paths to lint | `nil` |
+| `exclude_paths` | List of files or paths to exclude from linting | `nil` |
 
 ## Contributing
 

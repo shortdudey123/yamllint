@@ -20,16 +20,32 @@ YamlLint::RakeTask.new do |t|
   t.paths = %w{ spec/data/valid* }
 end
 
+desc 'yamllint rake test with exclude_paths'
+YamlLint::RakeTask.new(:yamllint_exclude_paths) do |t|
+  t.paths = %w{
+    spec/data/*
+  }
+  t.exclude_paths = %w(
+    spec/data/custom_extension.eyaml
+    spec/data/empty.yaml
+    spec/data/invalid.yaml
+    spec/data/overlapping_keys.yaml
+    spec/data/overlapping_keys_deep.yaml
+    spec/data/spaces.yaml
+    spec/data/wrong_extension.txt
+  )
+end
+
 desc 'yamllint rake test disabled file ext check'
-YamlLint::RakeTask.new(:yamlling_disable_ext_check) do |t|
+YamlLint::RakeTask.new(:yamllint_disable_ext_check) do |t|
   t.paths = %w{ spec/data/wrong_extension.txt }
   t.disable_ext_check = true
 end
 
 desc 'yamllint rake test disabled file ext check'
-YamlLint::RakeTask.new(:yamlling_custom_ext) do |t|
+YamlLint::RakeTask.new(:yamllint_custom_ext) do |t|
   t.paths = %w{ spec/data/custom_extension.eyaml }
   t.extensions = %w{ eyaml }
 end
 
-task default: [:rubocop, :yamllint, :yamlling_disable_ext_check, :yamlling_custom_ext, :spec]
+task default: [:rubocop, :yamllint, :yamllint_exclude_paths, :yamllint_disable_ext_check, :yamllint_custom_ext, :spec]

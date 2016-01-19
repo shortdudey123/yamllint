@@ -10,6 +10,7 @@ module YamlLint
   class RakeTask < Rake::TaskLib
     attr_accessor :name
     attr_accessor :paths
+    attr_accessor :exclude_paths
     attr_accessor :fail_on_error
     attr_accessor :disable_ext_check
     attr_accessor :extensions
@@ -34,9 +35,12 @@ module YamlLint
       task(name) do
         puts 'Running YamlLint...'
 
-        files_to_check = Rake::FileList.new(paths)
+        files_to_check_raw = Rake::FileList.new(paths)
+        files_to_exclude = Rake::FileList.new(exclude_paths)
+        files_to_check = files_to_check_raw - files_to_exclude
 
         puts "Checking #{files_to_check.flatten.length} files"
+        puts "Excluding #{files_to_exclude.flatten.length} files"
 
         linter = ::YamlLint::Linter.new(disable_ext_check: disable_ext_check,
                                         extensions: extensions)
