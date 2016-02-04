@@ -33,7 +33,7 @@ module YamlLint
 
     # Check a single file
     def check(path)
-      fail FileNotFoundError, "#{path}: no such file" unless File.exist?(path)
+      raise FileNotFoundError, "#{path}: no such file" unless File.exist?(path)
 
       valid = false
       unless disable_extension_check
