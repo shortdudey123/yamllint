@@ -1,5 +1,6 @@
 # YamlLint
 
+[![Gitter chat](https://badges.gitter.im/shortdudey123/yamllint.svg)](https://gitter.im/shortdudey123/yamllint)
 [![Build Status](https://travis-ci.org/shortdudey123/yamllint.svg?branch=master)](https://travis-ci.org/shortdudey123/yamllint)
 [![Gem Version](http://img.shields.io/gem/v/yamllint.svg)](https://rubygems.org/gems/yamllint)
 [![Coverage Status](https://img.shields.io/coveralls/shortdudey123/yamllint/master.svg)](https://coveralls.io/r/shortdudey123/yamllint?branch=master)
