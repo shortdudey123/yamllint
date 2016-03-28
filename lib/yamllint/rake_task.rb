@@ -30,7 +30,7 @@ module YamlLint
 
     # Rake task
     def define_task
-      desc 'Run yamllint' unless ::Rake.application.last_comment
+      desc 'Run yamllint' unless ::Rake.application.last_description
 
       task(name) do
         puts 'Running YamlLint...'
