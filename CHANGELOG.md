@@ -4,7 +4,8 @@ This file is used to list changes made in each version of the YamlLint gem.
 
 Unreleased
 -------------------
-- **[PR #15](https://github.com/shortdudey123/yamllint/pull/15)**  - Rake.application.last_comment has been deprecated
+- **[PR #13](https://github.com/shortdudey123/yamllint/pull/13)** - Update Ruby syntax per Rubocop v0.37.0
+- **[PR #15](https://github.com/shortdudey123/yamllint/pull/15)** - Rake.application.last_comment has been deprecated
 
 v0.0.7 (2016-01-19)
 -------------------
