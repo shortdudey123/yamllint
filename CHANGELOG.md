@@ -2,6 +2,10 @@ YamlLint gem CHANGELOG
 ======================
 This file is used to list changes made in each version of the YamlLint gem.
 
+Unreleased
+-------------------
+- **[PR #15](https://github.com/shortdudey123/yamllint/pull/15)**  - Rake.application.last_comment has been deprecated
+
 v0.0.7 (2016-01-19)
 -------------------
 - **[ISSUE #10](https://github.com/shortdudey123/yamllint/issues/10)** / **[PR #12](https://github.com/shortdudey123/yamllint/pull/12)** - Add exclude path option to Raketask
