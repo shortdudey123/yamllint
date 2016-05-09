@@ -8,6 +8,7 @@ Unreleased
 - **[PR #15](https://github.com/shortdudey123/yamllint/pull/15)** - Rake.application.last_comment has been deprecated
 - **[PR #18](https://github.com/shortdudey123/yamllint/pull/18)** - Update Ruby syntax per Rubocop v0.40.0
 - **[PR #17](https://github.com/shortdudey123/yamllint/pull/17)** - Expose debug logging
+- **[PR #19](https://github.com/shortdudey123/yamllint/pull/19)** - Pry is a devel dependency not a runtime dependency
 
 v0.0.7 (2016-01-19)
 -------------------

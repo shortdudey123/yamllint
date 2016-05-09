@@ -1,6 +1,5 @@
 require 'logger'
 require 'trollop'
-require 'pry'
 
 module YamlLint
   ###
