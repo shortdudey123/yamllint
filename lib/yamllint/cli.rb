@@ -1,3 +1,4 @@
+require 'logger'
 require 'trollop'
 require 'pry'
 
@@ -21,6 +22,8 @@ module YamlLint
     # Run the CLI command
     def execute!
       files_to_check = parse_options.leftovers
+
+      YamlLint.logger.level = Logger::DEBUG if opts.debug
 
       no_yamls_to_check_msg = "Error: need at least one YAML file to check.\n"\
                               'Try --help for help.'
@@ -80,6 +83,7 @@ module YamlLint
 
         banner ''
         banner 'Options:'
+        opt :debug, 'Debug logging', default: false, short: 'D'
         opt :disable_ext_check, 'Disable file extension check', default: false
         opt :extensions, 'Add more allowed extensions (comma delimited list)',
             type: :string

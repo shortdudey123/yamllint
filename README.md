@@ -57,6 +57,7 @@ $
 
 | Short | Long | Description | Default |
 | ------------- | ------------- | ------------- | ------------- |
+| `-D` | `--debug` | Debug logging | `false` |
 | `-d` | `--disable-ext-check` | Disable file extension check | `false` |
 | `-e` | `--extensions=` | Add more allowed extensions (comma delimited list) | `nil` |
 | `-v` | `--version` | Print version and exit | `false` |
@@ -100,6 +101,7 @@ Add these options similarly to the path option seen above.
 
 | Option | Description | Default |
 | ------------- | ------------- | ------------- | ------------- |
+| `debug` | Debug logging | `false` |
 | `disable_ext_check` | Disable file extension check | `false` |
 | `extensions` | Add more allowed extensions (list)| `nil` |
 | `fail_on_error` | Continue on to the next rake task and don't fail even if YamlLint finds errors | `true` |
