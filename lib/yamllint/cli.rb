@@ -46,9 +46,10 @@ module YamlLint
 
     def lint_files(files_to_check)
       ext = opts.extensions.split(',') unless opts.extensions.nil?
-      linter = YamlLint::Linter.new(disable_ext_check: opts.disable_ext_check,
-                                    extensions: ext
-                                   )
+      linter = YamlLint::Linter.new(
+        disable_ext_check: opts.disable_ext_check,
+        extensions: ext
+      )
       begin
         puts "Checking #{files_to_check.flatten.length} files"
         linter.check_all(files_to_check)
