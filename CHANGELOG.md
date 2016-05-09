@@ -7,6 +7,7 @@ Unreleased
 - **[PR #13](https://github.com/shortdudey123/yamllint/pull/13)** - Update Ruby syntax per Rubocop v0.37.0
 - **[PR #15](https://github.com/shortdudey123/yamllint/pull/15)** - Rake.application.last_comment has been deprecated
 - **[PR #18](https://github.com/shortdudey123/yamllint/pull/18)** - Update Ruby syntax per Rubocop v0.40.0
+- **[PR #17](https://github.com/shortdudey123/yamllint/pull/17)** - Expose debug logging
 
 v0.0.7 (2016-01-19)
 -------------------

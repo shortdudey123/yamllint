@@ -14,12 +14,14 @@ module YamlLint
     attr_accessor :fail_on_error
     attr_accessor :disable_ext_check
     attr_accessor :extensions
+    attr_accessor :debug
 
     def initialize(name = :yamllint)
       @name = name
       @fail_on_error = true
       @disable_ext_check = false
       @extensions = nil
+      @debug = false
 
       yield self if block_given?
 
@@ -34,6 +36,8 @@ module YamlLint
 
       task(name) do
         puts 'Running YamlLint...'
+
+        YamlLint.logger.level = Logger::DEBUG if debug
 
         files_to_check_raw = Rake::FileList.new(paths)
         files_to_exclude = Rake::FileList.new(exclude_paths)

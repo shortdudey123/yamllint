@@ -48,11 +48,18 @@ YamlLint::RakeTask.new(:yamllint_custom_ext) do |t|
   t.extensions = %w( eyaml )
 end
 
+desc 'yamllint rake test disabled file ext check'
+YamlLint::RakeTask.new(:yamllint_debug_logging) do |t|
+  t.paths = %w( spec/data/valid.yaml )
+  t.debug = true
+end
+
 task default: [
   :rubocop,
   :yamllint,
   :yamllint_exclude_paths,
   :yamllint_disable_ext_check,
   :yamllint_custom_ext,
+  :yamllint_debug_logging,
   :spec
 ]
