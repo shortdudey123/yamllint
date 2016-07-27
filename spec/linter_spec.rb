@@ -9,7 +9,9 @@ describe 'YamlLint::Linter' do
   end
 
   it 'should throw an exception if given a bogus path' do
-    expect { linter.check('/does/not/exist') }.to raise_error
+    expect { linter.check('/does/not/exist') }.to raise_error(
+      YamlLint::FileNotFoundError
+    )
   end
 
   it 'should be happy with a valid YAML file' do
