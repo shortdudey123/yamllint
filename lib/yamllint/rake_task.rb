@@ -22,6 +22,7 @@ module YamlLint
       @disable_ext_check = false
       @extensions = nil
       @debug = false
+      @exclude_paths = []
 
       yield self if block_given?
 
