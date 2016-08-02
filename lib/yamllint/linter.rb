@@ -266,7 +266,7 @@ module YamlLint
         errors_array << err_meg
       end
 
-      !!overlap_detector.overlapping_keys.empty?
+      overlap_detector.overlapping_keys.empty?
     end
   end
 end
