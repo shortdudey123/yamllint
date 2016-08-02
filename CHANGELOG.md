@@ -6,6 +6,7 @@ Unreleased
 -------------------
 - **[PR #24](https://github.com/shortdudey123/yamllint/pull/24)** - Update RSpec raise_error to be more specific
 - **[PR #25](https://github.com/shortdudey123/yamllint/pull/25)** - Fix bug with files_to_exclude puts in Rake Task
+- **[PR #26](https://github.com/shortdudey123/yamllint/pull/26)** - Clean up Rubocop cop settings
 
 v0.0.8 (2016-07-10)
 -------------------
