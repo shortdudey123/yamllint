@@ -4,6 +4,7 @@ This file is used to list changes made in each version of the YamlLint gem.
 
 Unreleased
 -------------------
+- **[PR #27](https://github.com/shortdudey123/yamllint/pull/27)** - Fix readme typo and alphabetize things
 
 v0.0.9 (2016-09-16)
 -------------------

@@ -60,8 +60,8 @@ $
 | `-D` | `--debug` | Debug logging | `false` |
 | `-d` | `--disable-ext-check` | Disable file extension check | `false` |
 | `-e` | `--extensions=` | Add more allowed extensions (comma delimited list) | `nil` |
-| `-v` | `--version` | Print version and exit | `false` |
 | `-h` | `--help` | Show help message | `false` |
+| `-v` | `--version` | Print version and exit | `false` |
 
 ### Rake task
 
@@ -103,10 +103,10 @@ Add these options similarly to the path option seen above.
 | ------------- | ------------- | ------------- | ------------- |
 | `debug` | Debug logging | `false` |
 | `disable_ext_check` | Disable file extension check | `false` |
+| `exclude_paths` | List of files or paths to exclude from linting | `nil` |
 | `extensions` | Add more allowed extensions (list)| `nil` |
 | `fail_on_error` | Continue on to the next rake task and don't fail even if YamlLint finds errors | `true` |
-| `path` | List of files or paths to lint | `nil` |
-| `exclude_paths` | List of files or paths to exclude from linting | `nil` |
+| `paths` | List of files or paths to lint | `nil` |
 
 ## Contributing
 
