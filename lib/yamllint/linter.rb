@@ -1,5 +1,5 @@
-require 'yaml'
 require 'set'
+require 'yaml'
 
 require 'yamllint/errors'
 
@@ -8,10 +8,10 @@ module YamlLint
   # Runs the actual linting
   #
   class Linter
-    attr_reader :errors
-    attr_reader :valid_extensions
     attr_reader :disable_extension_check
+    attr_reader :errors
     attr_reader :extensions
+    attr_reader :valid_extensions
 
     # Initilize the linter
     # Params:

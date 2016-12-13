@@ -9,20 +9,20 @@ module YamlLint
   #
   class RakeTask < Rake::TaskLib
     attr_accessor :name
-    attr_accessor :paths
-    attr_accessor :exclude_paths
-    attr_accessor :fail_on_error
-    attr_accessor :disable_ext_check
-    attr_accessor :extensions
     attr_accessor :debug
+    attr_accessor :disable_ext_check
+    attr_accessor :exclude_paths
+    attr_accessor :extensions
+    attr_accessor :fail_on_error
+    attr_accessor :paths
 
     def initialize(name = :yamllint)
-      @name = name
-      @fail_on_error = true
-      @disable_ext_check = false
-      @extensions = nil
       @debug = false
+      @disable_ext_check = false
       @exclude_paths = []
+      @extensions = nil
+      @fail_on_error = true
+      @name = name
 
       yield self if block_given?
 
