@@ -4,6 +4,7 @@ This file is used to list changes made in each version of the YamlLint gem.
 ## Unreleased
 - **[PR #27](https://github.com/shortdudey123/yamllint/pull/27)** - Fix readme typo and alphabetize things
 - **[PR #28](https://github.com/shortdudey123/yamllint/pull/28)** - Fix Security/YAMLLoad rubocop offense
+- **[PR #29](https://github.com/shortdudey123/yamllint/pull/29)** - Update TraviCI Rubies
 
 ## v0.0.9 (2016-09-16)
 - **[PR #24](https://github.com/shortdudey123/yamllint/pull/24)** - Update RSpec raise_error to be more specific
