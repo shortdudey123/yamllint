@@ -5,6 +5,10 @@ AllCops:
 Metrics/AbcSize:
   Max: 36
 
+Metrics/BlockLength:
+  Exclude:
+    - spec/*.rb
+
 Metrics/CyclomaticComplexity:
   Max: 9
 
