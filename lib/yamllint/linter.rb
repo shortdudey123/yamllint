@@ -18,7 +18,7 @@ module YamlLint
     # +disable_ext_check+:: Disables file extension check (optional, false)
     def initialize(opts = {})
       @errors = {}
-      @valid_extensions = %w(yaml yml)
+      @valid_extensions = %w[yaml yml]
 
       @disable_extension_check = opts[:disable_ext_check] || false
       @extensions = opts[:extensions]
