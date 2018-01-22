@@ -56,7 +56,7 @@ $
 #### CLI options
 
 | Short | Long | Description | Default |
-| ------------- | ------------- | ------------- | ------------- |
+| --- | --- | --- | --- |
 | `-D` | `--debug` | Debug logging | `false` |
 | `-d` | `--disable-ext-check` | Disable file extension check | `false` |
 | `-e` | `--extensions=` | Add more allowed extensions (comma delimited list) | `nil` |
@@ -100,7 +100,7 @@ $
 Add these options similarly to the path option seen above.
 
 | Option | Description | Default |
-| ------------- | ------------- | ------------- | ------------- |
+| --- | --- | --- |
 | `debug` | Debug logging | `false` |
 | `disable_ext_check` | Disable file extension check | `false` |
 | `exclude_paths` | List of files or paths to exclude from linting | `nil` |
