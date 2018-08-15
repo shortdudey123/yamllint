@@ -97,6 +97,7 @@ module YamlLint
       valid = check_not_empty?(yaml_data, errors_array)
       valid &&= check_syntax_valid?(yaml_data, errors_array)
       valid &&= check_overlapping_keys?(yaml_data, errors_array)
+      valid &&= check_quoting_valid?(yaml_data, errors_array)
 
       valid
     end
@@ -143,8 +144,8 @@ module YamlLint
       private
       
       def check_on_value(node, key)
-        value = node.value
-        YamlLint.logger.debug { "add_value: #{value.inspect}, #{key.inspect}" }
+        @current_node = node
+        YamlLint.logger.debug { "check_on_value: #{@current_node.value.inspect}, #{key.inspect}" }
 
         case @complex_type.last
         when :hash
@@ -285,6 +286,88 @@ module YamlLint
       end
 
       overlap_detector.overlapping_keys.empty?
+    end
+
+    ###
+    # Check conventions for quoting of strings
+    #
+    class QuotingChecker < RecursiveChecker
+      attr_reader :single_quoted_strings, :double_quoted_strings
+
+      # Setup class variables
+      def initialize
+        super
+        @single_quoted_strings = []
+        @double_quoted_strings = []
+      end
+
+      private
+
+      def check!
+        node = @current_node
+        return unless node.quoted
+        YamlLint.logger.debug { "Checking #{quoted_value(node)} for quoting conventions" }
+
+        full_key = @key_components.dup
+
+        case node.style
+        when Psych::Nodes::Scalar::SINGLE_QUOTED
+          if include_esacpe_characters?(node)
+            YamlLint.logger.debug { "Escape characters in single quoted string #{quoted_value(node)}" }
+            @single_quoted_strings << ["#{full_key.join('.')}", quoted_value(node)]
+          end
+        when Psych::Nodes::Scalar::DOUBLE_QUOTED
+          unless include_esacpe_characters?(node) || include_single_quote?(node)
+            YamlLint.logger.debug { "Double quoted string without escape characters or single quotes(') #{quoted_value(node)}" }
+            @double_quoted_strings << ["#{full_key.join('.')}", quoted_value(node)]
+          end
+        end
+      end
+
+      def quoted_value(node)
+        case node.style
+        when Psych::Nodes::Scalar::SINGLE_QUOTED
+          "\'#{node.value}\'"
+        when Psych::Nodes::Scalar::DOUBLE_QUOTED
+          "\"#{node.value}\""
+        end
+      end
+
+      def unescaped_string(node)
+        case node.style
+        when Psych::Nodes::Scalar::SINGLE_QUOTED
+          node.value.scrub
+        when Psych::Nodes::Scalar::DOUBLE_QUOTED
+          node.value.inspect[1...-1].gsub('\\\\', '\\').scrub
+        end
+      end
+
+      def include_esacpe_characters?(node)
+        unescaped_string(node) =~ /\\[abefnrtv]{0,1}|\\[0-7]{1,3}|\\x[0-9a-fA-F]{1,2}|\\u[0-9a-fA-F]{1,6}/
+      end
+
+      def include_single_quote?(node)
+        unescaped_string(node).include?('\'')
+      end
+    end
+
+    def check_quoting_valid?(yaml_data, errors_array)
+      quoting_checker = QuotingChecker.new
+      data = Psych.parser.parse(yaml_data)
+
+      quoting_checker.parse(data)
+
+      quoting_checker.single_quoted_strings.each do |key, string|
+        err_meg = "Use double quoted strings if you need to parse escape characters: #{key}: #{string}"
+        errors_array << err_meg
+      end
+
+      quoting_checker.double_quoted_strings.each do |key, string|
+        err_meg = "Prefer single-quoted strings when you don't need to parse escape characters: #{key}: #{string}"
+        errors_array << err_meg
+      end
+
+      quoting_checker.single_quoted_strings.empty? && quoting_checker.double_quoted_strings.empty?
     end
   end
 end

@@ -70,4 +70,28 @@ describe 'YamlLint::Linter' do
   it 'should be unhapy with a YAML file full of spaces' do
     expect(linter.check(spec_data('spaces.yaml'))).to be(false)
   end
+
+  it 'should be unhappy with a YAML that has an escape charater in single quoted string' do
+    expect(linter.check(spec_data('single_quoted_escape_character.yaml'))).to be(false)
+  end
+
+  it 'should be unhappy with a YAML that has a double quoted string without escape charaters' do
+    expect(linter.check(spec_data('double_quoted_no_escape_character.yaml'))).to be(false)
+  end
+
+  it 'should be happy with a YAML that has a double quote in single quoted string' do
+    expect(linter.check(spec_data('double_quote_in_single_quotes.yaml'))).to be(true)
+  end
+
+  it 'should be happy with a YAML that has a single quote in double quoted string' do
+    expect(linter.check(spec_data('single_quote_in_double_quotes.yaml'))).to be(true)
+  end
+
+  it 'should be unhappy with a YAML that has a single quote in single quoted string' do
+    expect(linter.check(spec_data('invalid_with_single_quote.yaml'))).to be(false)
+  end
+
+  it 'should be unhappy with a YAML that has a double quote in double quoted string' do
+    expect(linter.check(spec_data('invalid_with_double_quote.yaml'))).to be(false)
+  end
 end
