@@ -96,8 +96,10 @@ module YamlLint
     def check_data(yaml_data, errors_array)
       valid = check_not_empty?(yaml_data, errors_array)
       valid &&= check_syntax_valid?(yaml_data, errors_array)
-      valid &&= check_overlapping_keys?(yaml_data, errors_array)
-      valid &&= check_quoting_valid?(yaml_data, errors_array)
+      valid &&= [
+        check_overlapping_keys?(yaml_data, errors_array),
+        check_quoting_valid?(yaml_data, errors_array)
+      ].all? {|valid| valid}
 
       valid
     end
