@@ -124,30 +124,41 @@ module YamlLint
     end
 
     ###
-    # Detects duplicate keys in Psych parsed data
+    # Checks its violations or conventions in Psych parsed data recursivley
     #
-    class KeyOverlapDetector
-      attr_reader :overlapping_keys
-
-      # Setup class variables
+    class RecursiveChecker
+      # Should have a readable attribute that has results of checking
       def initialize
-        @seen_keys = Set.new
         @key_components = []
-        @last_key = ['']
-        @overlapping_keys = Set.new
         @complex_type = []
         @array_positions = []
+        @last_key = ['']
       end
 
-      # Get the data and send it off for duplicate key validation
       def parse(psych_parse_data)
         data_start = psych_parse_data.handler.root.children[0]
         parse_recurse(data_start)
       end
 
       private
+      
+      def check_on_value(node, key)
+        value = node.value
+        YamlLint.logger.debug { "add_value: #{value.inspect}, #{key.inspect}" }
 
-      # Recusively check for duplicate keys
+        case @complex_type.last
+        when :hash
+          @key_components.push(key)
+          check!
+          @key_components.pop
+        when :array
+          @key_components.push(@array_positions.last)
+          check!
+          @array_positions[-1] += 1
+          @key_components.pop
+        end
+      end
+
       def parse_recurse(psych_parse_data, is_sequence = false)
         is_key = false
         psych_parse_data.children.each do |n|
@@ -155,7 +166,7 @@ module YamlLint
           when 'Psych::Nodes::Scalar'
             is_key = !is_key unless is_sequence
             @last_key.push(n.value) if is_key
-            add_value(n.value, @last_key.last) unless is_key
+            check_on_value(n, @last_key.last) unless is_key
             msg = "Scalar: #{n.value}, key: #{is_key}, last_key: #{@last_key}"
             YamlLint.logger.debug { msg }
             @last_key.pop if !is_key && !is_sequence
@@ -184,7 +195,6 @@ module YamlLint
         complex_type_start(key)
 
         @complex_type.push(:hash)
-        check_for_overlap!
       end
 
       # Tear down a hash
@@ -203,7 +213,6 @@ module YamlLint
 
         @complex_type.push(:array)
         @array_positions.push(0)
-        check_for_overlap!
       end
 
       # Tear down the array
@@ -215,33 +224,6 @@ module YamlLint
         @array_positions.pop
       end
 
-      # Add a key / value pair
-      def add_value(value, key)
-        YamlLint.logger.debug { "add_value: #{value.inspect}, #{key.inspect}" }
-
-        case @complex_type.last
-        when :hash
-          @key_components.push(key)
-          check_for_overlap!
-          @key_components.pop
-        when :array
-          @key_components.push(@array_positions.last)
-          check_for_overlap!
-          @array_positions[-1] += 1
-          @key_components.pop
-        end
-      end
-
-      # Check for key overlap
-      def check_for_overlap!
-        full_key = @key_components.dup
-        YamlLint.logger.debug { "Checking #{full_key.join('.')} for overlap" }
-
-        return if @seen_keys.add?(full_key)
-        YamlLint.logger.debug { "Overlapping key #{full_key.join('.')}" }
-        @overlapping_keys << full_key
-      end
-
       # Setup common hash and array elements
       def complex_type_start(key)
         case @complex_type.last
@@ -251,6 +233,42 @@ module YamlLint
           @key_components.push(@array_positions.last)
           @array_positions[-1] += 1
         end
+      end
+    end
+
+    ###
+    # Detects duplicate keys in Psych parsed data
+    #
+    class KeyOverlapDetector < RecursiveChecker
+      attr_reader :overlapping_keys
+
+      # Setup class variables
+      def initialize
+        super
+        @seen_keys = Set.new
+        @overlapping_keys = Set.new
+      end
+
+      private
+
+      def hash_start(key)
+        super(key)
+        check!
+      end
+
+      def array_start(key)
+        super(key)
+        check!
+      end
+
+      # Check for key overlap
+      def check!
+        full_key = @key_components.dup
+        YamlLint.logger.debug { "Checking #{full_key.join('.')} for overlap" }
+
+        return if @seen_keys.add?(full_key)
+        YamlLint.logger.debug { "Overlapping key #{full_key.join('.')}" }
+        @overlapping_keys << full_key
       end
     end
 
