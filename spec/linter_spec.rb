@@ -70,4 +70,12 @@ describe 'YamlLint::Linter' do
   it 'should be unhapy with a YAML file full of spaces' do
     expect(linter.check(spec_data('spaces.yaml'))).to be(false)
   end
+
+  it 'should be unhappy with a YAML that has an interpolation in single quoted string' do
+    expect(linter.check(spec_data('interpolation_with_single_quoted.yaml'))).to be(false)
+  end
+
+  it 'should be unhappy with a YAML that has a double quoted string without interpolation' do
+    expect(linter.check(spec_data('no_interpolation_without_double_qouted.yaml'))).to be(false)
+  end
 end
