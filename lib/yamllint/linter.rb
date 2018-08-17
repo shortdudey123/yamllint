@@ -151,29 +151,29 @@ module YamlLint
       def parse_recurse(psych_parse_data, is_sequence = false)
         is_key = false
         psych_parse_data.children.each do |n|
-          case n.class.to_s
-          when 'Psych::Nodes::Scalar'
+          case n
+          when Psych::Nodes::Scalar
             is_key = !is_key unless is_sequence
             @last_key.push(n.value) if is_key
             add_value(n.value, @last_key.last) unless is_key
             msg = "Scalar: #{n.value}, key: #{is_key}, last_key: #{@last_key}"
             YamlLint.logger.debug { msg }
             @last_key.pop if !is_key && !is_sequence
-          when 'Psych::Nodes::Sequence'
+          when Psych::Nodes::Sequence
             YamlLint.logger.debug { "Sequence: #{n.children}" }
             array_start(@last_key.last)
             parse_recurse(n, true)
             array_end(@last_key.last)
             is_key = false
             @last_key.pop
-          when 'Psych::Nodes::Mapping'
+          when Psych::Nodes::Mapping
             YamlLint.logger.debug { "Mapping: #{n.children}" }
             hash_start(@last_key.last)
             parse_recurse(n)
             hash_end(@last_key.last)
             is_key = false
             @last_key.pop
-          when 'Psych::Nodes::Alias'
+          when Psych::Nodes::Alias
             is_key = false
           end
         end
