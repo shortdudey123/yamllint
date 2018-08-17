@@ -34,14 +34,14 @@ describe 'yamllint' do
   it '-D should print debug log and exit successfully with good YAML' do
     yamllint spec_data('valid.yaml -D')
     expect(last_command_started).to be_successfully_executed
-    expect(last_command_started).to have_output(/DEBUG -- : add_value: "bar"/)
+    expect(last_command_started).to have_output(/DEBUG -- : check_on_value: "bar"/)
     expect(last_command_started).to have_output(/DEBUG -- : Checking my_array/)
   end
 
   it '--debug should print debug log and exit successfully with good YAML' do
     yamllint spec_data('valid.yaml --debug')
     expect(last_command_started).to be_successfully_executed
-    expect(last_command_started).to have_output(/DEBUG -- : add_value: "bar"/)
+    expect(last_command_started).to have_output(/DEBUG -- : check_on_value: "bar"/)
     expect(last_command_started).to have_output(/DEBUG -- : Checking my_array/)
   end
 
