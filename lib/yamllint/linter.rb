@@ -173,6 +173,8 @@ module YamlLint
             hash_end(@last_key.last)
             is_key = false
             @last_key.pop
+          when 'Psych::Nodes::Alias'
+            is_key = false
           end
         end
       end
