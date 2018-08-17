@@ -1,0 +1,7 @@
+---
+foo: &foo
+bar:
+  <<: *foo
+  key1: val
+  key2: val
+  key3: val
