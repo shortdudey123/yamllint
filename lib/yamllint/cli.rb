@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'logger'
-require 'trollop'
+require 'optimst'
 
 module YamlLint
   ###
@@ -79,7 +79,7 @@ module YamlLint
     end
 
     def setup_options
-      Trollop::Parser.new do
+      Optimist::Parser.new do
         banner 'Usage: yamllint [options] file1.yaml [file2.yaml ...]'
         version(YamlLint::VERSION)
 
@@ -95,7 +95,7 @@ module YamlLint
     def parse_options
       p = setup_options
 
-      @opts = Trollop.with_standard_exception_handling p do
+      @opts = Optimist.with_standard_exception_handling p do
         p.parse(@argv)
       end
 
