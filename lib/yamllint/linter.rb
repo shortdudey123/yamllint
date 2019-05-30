@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'set'
 require 'yaml'
 
@@ -89,6 +91,7 @@ module YamlLint
     def check_filename(filename)
       extension = filename.split('.').last
       return true if valid_extensions.include?(extension)
+
       false
     end
 
@@ -238,6 +241,7 @@ module YamlLint
         YamlLint.logger.debug { "Checking #{full_key.join('.')} for overlap" }
 
         return if @seen_keys.add?(full_key)
+
         YamlLint.logger.debug { "Overlapping key #{full_key.join('.')}" }
         @overlapping_keys << full_key
       end

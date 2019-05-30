@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'coveralls'
 Coveralls.wear!
 
@@ -26,7 +28,7 @@ module CliSpecHelpers
   end
 
   def yamllint_bin
-    File.expand_path('../../bin/yamllint', __FILE__)
+    File.expand_path('../bin/yamllint', __dir__)
   end
 end
 
