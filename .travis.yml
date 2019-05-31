@@ -1,10 +1,8 @@
 language: ruby
 cache: bundler
 before_install:
-  - rvm use @global
-  - gem uninstall bundler -x
-  - gem install bundler --version=1.17.3
-  - bundler --version
+  - gem install -v 1.17.2 bundler
+  - bundle _1.17.2_ install
 rvm:
   - 2.3.3
   - 2.4.0
