@@ -1,9 +1,11 @@
 language: ruby
 cache: bundler
+before_install:
+  - gem install -v 1.17.3 bundler
 rvm:
   - 2.3.3
   - 2.4.0
-  - 2.5.4
+  - 2.5.5
   - 2.6.3
 branches:
   only:
