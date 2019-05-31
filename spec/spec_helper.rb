@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'coveralls'
 Coveralls.wear!
 
@@ -22,11 +24,11 @@ end
 #
 module CliSpecHelpers
   def yamllint(args = nil)
-    run_simple("#{yamllint_bin} #{args}", fail_on_error: false)
+    run_command_and_stop("#{yamllint_bin} #{args}", fail_on_error: false)
   end
 
   def yamllint_bin
-    File.expand_path('../../bin/yamllint', __FILE__)
+    File.expand_path('../bin/yamllint', __dir__)
   end
 end
 
