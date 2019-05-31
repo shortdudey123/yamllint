@@ -80,9 +80,9 @@ describe 'yamllint' do
   end
 
   it 'should fail with a path that is unreadable' do
-    run_simple('mkdir -p tmp')
-    run_simple('touch tmp/unreadable_file.yaml')
-    run_simple('chmod -r tmp/unreadable_file.yaml')
+    run_command_and_stop('mkdir -p tmp')
+    run_command_and_stop('touch tmp/unreadable_file.yaml')
+    run_command_and_stop('chmod -r tmp/unreadable_file.yaml')
 
     yamllint 'tmp/unreadable_file.yaml'
     expect(last_command_started).to_not be_successfully_executed
@@ -90,13 +90,13 @@ describe 'yamllint' do
   end
 
   it 'should be able to lint good YAML from STDIN' do
-    run "#{yamllint_bin} -"
+    run_command "#{yamllint_bin} -"
     pipe_in_file('../../spec/data/valid.yaml') && close_input
     expect(last_command_started).to be_successfully_executed
   end
 
   it 'should be able to lint bad YAML from STDIN' do
-    run "#{yamllint_bin} -"
+    run_command "#{yamllint_bin} -"
     pipe_in_file('../../spec/data/invalid.yaml') && close_input
     expect(last_command_started).to_not be_successfully_executed
   end
