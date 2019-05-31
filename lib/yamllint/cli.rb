@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'logger'
-require 'optimst'
+require 'optimist'
 
 module YamlLint
   ###
