@@ -96,7 +96,10 @@ module YamlLint
     def check_data(yaml_data, errors_array)
       valid = check_not_empty?(yaml_data, errors_array)
       valid &&= check_syntax_valid?(yaml_data, errors_array)
-      valid &&= check_overlapping_keys?(yaml_data, errors_array)
+      valid &&= [
+        check_overlapping_keys?(yaml_data, errors_array),
+        check_quoting_valid?(yaml_data, errors_array)
+      ].all? {|valid| valid}
 
       valid
     end
@@ -124,30 +127,41 @@ module YamlLint
     end
 
     ###
-    # Detects duplicate keys in Psych parsed data
+    # Checks its violations or conventions in Psych parsed data recursivley
     #
-    class KeyOverlapDetector
-      attr_reader :overlapping_keys
-
-      # Setup class variables
+    class RecursiveChecker
+      # Should have a readable attribute that has results of checking
       def initialize
-        @seen_keys = Set.new
         @key_components = []
-        @last_key = ['']
-        @overlapping_keys = Set.new
         @complex_type = []
         @array_positions = []
+        @last_key = ['']
       end
 
-      # Get the data and send it off for duplicate key validation
       def parse(psych_parse_data)
         data_start = psych_parse_data.handler.root.children[0]
         parse_recurse(data_start)
       end
 
       private
+      
+      def check_on_value(node, key)
+        @current_node = node
+        YamlLint.logger.debug { "check_on_value: #{@current_node.value.inspect}, #{key.inspect}" }
 
-      # Recusively check for duplicate keys
+        case @complex_type.last
+        when :hash
+          @key_components.push(key)
+          check!
+          @key_components.pop
+        when :array
+          @key_components.push(@array_positions.last)
+          check!
+          @array_positions[-1] += 1
+          @key_components.pop
+        end
+      end
+
       def parse_recurse(psych_parse_data, is_sequence = false)
         is_key = false
         psych_parse_data.children.each do |n|
@@ -155,7 +169,7 @@ module YamlLint
           when 'Psych::Nodes::Scalar'
             is_key = !is_key unless is_sequence
             @last_key.push(n.value) if is_key
-            add_value(n.value, @last_key.last) unless is_key
+            check_on_value(n, @last_key.last) unless is_key
             msg = "Scalar: #{n.value}, key: #{is_key}, last_key: #{@last_key}"
             YamlLint.logger.debug { msg }
             @last_key.pop if !is_key && !is_sequence
@@ -184,7 +198,6 @@ module YamlLint
         complex_type_start(key)
 
         @complex_type.push(:hash)
-        check_for_overlap!
       end
 
       # Tear down a hash
@@ -203,7 +216,6 @@ module YamlLint
 
         @complex_type.push(:array)
         @array_positions.push(0)
-        check_for_overlap!
       end
 
       # Tear down the array
@@ -215,33 +227,6 @@ module YamlLint
         @array_positions.pop
       end
 
-      # Add a key / value pair
-      def add_value(value, key)
-        YamlLint.logger.debug { "add_value: #{value.inspect}, #{key.inspect}" }
-
-        case @complex_type.last
-        when :hash
-          @key_components.push(key)
-          check_for_overlap!
-          @key_components.pop
-        when :array
-          @key_components.push(@array_positions.last)
-          check_for_overlap!
-          @array_positions[-1] += 1
-          @key_components.pop
-        end
-      end
-
-      # Check for key overlap
-      def check_for_overlap!
-        full_key = @key_components.dup
-        YamlLint.logger.debug { "Checking #{full_key.join('.')} for overlap" }
-
-        return if @seen_keys.add?(full_key)
-        YamlLint.logger.debug { "Overlapping key #{full_key.join('.')}" }
-        @overlapping_keys << full_key
-      end
-
       # Setup common hash and array elements
       def complex_type_start(key)
         case @complex_type.last
@@ -251,6 +236,42 @@ module YamlLint
           @key_components.push(@array_positions.last)
           @array_positions[-1] += 1
         end
+      end
+    end
+
+    ###
+    # Detects duplicate keys in Psych parsed data
+    #
+    class KeyOverlapDetector < RecursiveChecker
+      attr_reader :overlapping_keys
+
+      # Setup class variables
+      def initialize
+        super
+        @seen_keys = Set.new
+        @overlapping_keys = Set.new
+      end
+
+      private
+
+      def hash_start(key)
+        super(key)
+        check!
+      end
+
+      def array_start(key)
+        super(key)
+        check!
+      end
+
+      # Check for key overlap
+      def check!
+        full_key = @key_components.dup
+        YamlLint.logger.debug { "Checking #{full_key.join('.')} for overlap" }
+
+        return if @seen_keys.add?(full_key)
+        YamlLint.logger.debug { "Overlapping key #{full_key.join('.')}" }
+        @overlapping_keys << full_key
       end
     end
 
@@ -267,6 +288,88 @@ module YamlLint
       end
 
       overlap_detector.overlapping_keys.empty?
+    end
+
+    ###
+    # Check conventions for quoting of strings
+    #
+    class QuotingChecker < RecursiveChecker
+      attr_reader :single_quoted_strings, :double_quoted_strings
+
+      # Setup class variables
+      def initialize
+        super
+        @single_quoted_strings = []
+        @double_quoted_strings = []
+      end
+
+      private
+
+      def check!
+        node = @current_node
+        return unless node.quoted
+        YamlLint.logger.debug { "Checking #{quoted_value(node)} for quoting conventions" }
+
+        full_key = @key_components.dup
+
+        case node.style
+        when Psych::Nodes::Scalar::SINGLE_QUOTED
+          if include_esacpe_characters?(node)
+            YamlLint.logger.debug { "Escape characters in single quoted string #{quoted_value(node)}" }
+            @single_quoted_strings << ["#{full_key.join('.')}", quoted_value(node)]
+          end
+        when Psych::Nodes::Scalar::DOUBLE_QUOTED
+          unless include_esacpe_characters?(node) || include_single_quote?(node)
+            YamlLint.logger.debug { "Double quoted string without escape characters or single quotes(') #{quoted_value(node)}" }
+            @double_quoted_strings << ["#{full_key.join('.')}", quoted_value(node)]
+          end
+        end
+      end
+
+      def quoted_value(node)
+        case node.style
+        when Psych::Nodes::Scalar::SINGLE_QUOTED
+          "\'#{node.value}\'"
+        when Psych::Nodes::Scalar::DOUBLE_QUOTED
+          "\"#{node.value}\""
+        end
+      end
+
+      def unescaped_string(node)
+        case node.style
+        when Psych::Nodes::Scalar::SINGLE_QUOTED
+          node.value.scrub
+        when Psych::Nodes::Scalar::DOUBLE_QUOTED
+          node.value.inspect[1...-1].gsub('\\\\', '\\').scrub
+        end
+      end
+
+      def include_esacpe_characters?(node)
+        unescaped_string(node) =~ /\\[abefnrtv]{0,1}|\\[0-7]{1,3}|\\x[0-9a-fA-F]{1,2}|\\u[0-9a-fA-F]{1,6}/
+      end
+
+      def include_single_quote?(node)
+        unescaped_string(node).include?('\'')
+      end
+    end
+
+    def check_quoting_valid?(yaml_data, errors_array)
+      quoting_checker = QuotingChecker.new
+      data = Psych.parser.parse(yaml_data)
+
+      quoting_checker.parse(data)
+
+      quoting_checker.single_quoted_strings.each do |key, string|
+        err_meg = "Use double quoted strings if you need to parse escape characters: #{key}: #{string}"
+        errors_array << err_meg
+      end
+
+      quoting_checker.double_quoted_strings.each do |key, string|
+        err_meg = "Prefer single-quoted strings when you don't need to parse escape characters: #{key}: #{string}"
+        errors_array << err_meg
+      end
+
+      quoting_checker.single_quoted_strings.empty? && quoting_checker.double_quoted_strings.empty?
     end
   end
 end
