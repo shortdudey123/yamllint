@@ -43,10 +43,20 @@ module YamlLint
         end
       end
 
-      File.open(path, 'r') do |f|
-        error_array = []
-        valid = check_data(f.read, error_array)
-        errors[path] = error_array unless error_array.empty?
+      commentcount = false
+      File.readlines(path).each do |line|
+        if(!(line.include? "#"))
+          commentcount = true
+          break
+        end
+      end
+
+      if(commentcount)
+        File.open(path, 'r') do |f|
+          error_array = []
+          valid = check_data(f.read, error_array)
+          errors[path] = error_array unless error_array.empty?
+        end
       end
 
       valid
