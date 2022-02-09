@@ -45,13 +45,13 @@ module YamlLint
 
       commentcount = false
       File.readlines(path).each do |line|
-        if(!(line.include? "#"))
+        unless line.include? '#'
           commentcount = true
           break
         end
       end
 
-      if(commentcount)
+      if commentcount
         File.open(path, 'r') do |f|
           error_array = []
           valid = check_data(f.read, error_array)

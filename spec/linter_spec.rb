@@ -48,6 +48,9 @@ describe 'YamlLint::Linter' do
 
   it 'should be unhappy with an invalid YAML file' do
     expect(linter.check(spec_data('invalid.yaml'))).to be(false)
+  end
+
+  it 'should ignore an comments only YAML file' do
     expect(linter.check(spec_data('invalid_only_comment.yaml'))).to be(false)
   end
 
