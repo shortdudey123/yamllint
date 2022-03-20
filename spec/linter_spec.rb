@@ -15,6 +15,7 @@ describe 'YamlLint::Linter' do
   end
 
   it 'should be happy with a valid YAML file' do
+    expect(linter.check(spec_data('empty.yaml'))).to be(true)
     expect(linter.check(spec_data('valid.yaml'))).to be(true)
     expect(linter.check(spec_data('valid_complex.yaml'))).to be(true)
     expect(linter.check(spec_data('valid_very_complex.yaml'))).to be(true)
@@ -25,16 +26,9 @@ describe 'YamlLint::Linter' do
     expect(linter.errors_count).to eq(0)
   end
 
-  it 'should have 1 error count with a empty YAML file' do
+  it 'should have 0 error count with a empty YAML file' do
     linter.check(spec_data('empty.yaml'))
-    expect(linter.errors_count).to eq(1)
-  end
-
-  it 'should display errors for empty YAML file' do
-    linter.check(spec_data('empty.yaml'))
-    error_array = linter.display_errors
-    error_array_expected = ['The YAML should not be an empty string']
-    expect(error_array.first[1]).to eq(error_array_expected)
+    expect(linter.errors_count).to eq(0)
   end
 
   it 'should be happy with a multiple valid YAML files' do

@@ -8,6 +8,9 @@ This file is used to list changes made in each version of the YamlLint gem.
 - **[PR #30](https://github.com/shortdudey123/yamllint/pull/30)** - Fix Style/PercentLiteralDelimiters offense
 - **[PR #37](https://github.com/shortdudey123/yamllint/pull/37)** - Update trollop to optimist to remove deprecation warnings
 
+## v0.0.x (2022-03-xx)
+- Allow empty YAML files
+
 ## v0.0.9 (2016-09-16)
 - **[PR #24](https://github.com/shortdudey123/yamllint/pull/24)** - Update RSpec raise_error to be more specific
 - **[PR #25](https://github.com/shortdudey123/yamllint/pull/25)** - Fix bug with files_to_exclude puts in Rake Task
