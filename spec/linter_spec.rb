@@ -15,10 +15,11 @@ describe 'YamlLint::Linter' do
   end
 
   it 'should be happy with a valid YAML file' do
-    expect(linter.check(spec_data('empty.yaml'))).to be(true)
     expect(linter.check(spec_data('valid.yaml'))).to be(true)
     expect(linter.check(spec_data('valid_complex.yaml'))).to be(true)
     expect(linter.check(spec_data('valid_very_complex.yaml'))).to be(true)
+    expect(linter.check(spec_data('valid_empty.yaml'))).to be(true)
+    expect(linter.check(spec_data('valid_only_comment.yaml'))).to be(true)
   end
 
   it 'should have 0 error count with a valid YAML file' do
@@ -27,7 +28,7 @@ describe 'YamlLint::Linter' do
   end
 
   it 'should have 0 error count with a empty YAML file' do
-    linter.check(spec_data('empty.yaml'))
+    linter.check(spec_data('valid_empty.yaml'))
     expect(linter.errors_count).to eq(0)
   end
 
@@ -55,10 +56,6 @@ describe 'YamlLint::Linter' do
 
     invalid_stream = File.open(spec_data('overlapping_keys.yaml'))
     expect(linter.check_stream(invalid_stream)).to be(false)
-  end
-
-  it 'should be happy with an empty YAML file' do
-    expect(linter.check(spec_data('empty.yaml'))).to be(true)
   end
 
   it 'should be happy with a YAML file full of spaces' do
