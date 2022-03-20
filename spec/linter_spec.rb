@@ -57,11 +57,11 @@ describe 'YamlLint::Linter' do
     expect(linter.check_stream(invalid_stream)).to be(false)
   end
 
-  it 'should be unhappy with an empty YAML file' do
-    expect(linter.check(spec_data('empty.yaml'))).to be(false)
+  it 'should be happy with an empty YAML file' do
+    expect(linter.check(spec_data('empty.yaml'))).to be(true)
   end
 
-  it 'should be unhapy with a YAML file full of spaces' do
-    expect(linter.check(spec_data('spaces.yaml'))).to be(false)
+  it 'should be happy with a YAML file full of spaces' do
+    expect(linter.check(spec_data('spaces.yaml'))).to be(true)
   end
 end
