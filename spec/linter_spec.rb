@@ -19,6 +19,7 @@ describe 'YamlLint::Linter' do
     expect(linter.check(spec_data('valid_complex.yaml'))).to be(true)
     expect(linter.check(spec_data('valid_very_complex.yaml'))).to be(true)
     expect(linter.check(spec_data('valid_empty.yaml'))).to be(true)
+    expect(linter.check(spec_data('valid_spaces.yaml'))).to be(true)
     expect(linter.check(spec_data('valid_only_comment.yaml'))).to be(true)
   end
 
@@ -56,9 +57,5 @@ describe 'YamlLint::Linter' do
 
     invalid_stream = File.open(spec_data('overlapping_keys.yaml'))
     expect(linter.check_stream(invalid_stream)).to be(false)
-  end
-
-  it 'should be happy with a YAML file full of spaces' do
-    expect(linter.check(spec_data('spaces.yaml'))).to be(true)
   end
 end
