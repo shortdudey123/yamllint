@@ -38,8 +38,6 @@ You can run yamllint against a set of files in the command line. Any errors will
 
 ```
 $ yamllint spec/data/*
-spec/data/empty.yaml
-  The YAML should not be an empty string
 spec/data/invalid.yaml
   (<unknown>): found character that cannot start any token while scanning for the next token at line 1 column 6
 spec/data/overlapping_keys.yaml
@@ -80,8 +78,6 @@ Then run the rake task.
 
 ```
 $ rake yamllint
-spec/data/empty.yaml
-  The YAML should not be an empty string
 spec/data/invalid.yaml
   (<unknown>): found character that cannot start any token while scanning for the next token at line 1 column 6
 spec/data/overlapping_keys.yaml

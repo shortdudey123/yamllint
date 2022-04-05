@@ -27,11 +27,9 @@ YamlLint::RakeTask.new(:yamllint_exclude_paths) do |t|
   )
   t.exclude_paths = %w(
     spec/data/custom_extension.eyaml
-    spec/data/empty.yaml
     spec/data/invalid.yaml
     spec/data/overlapping_keys.yaml
     spec/data/overlapping_keys_deep.yaml
-    spec/data/spaces.yaml
     spec/data/wrong_extension.txt
   )
 end

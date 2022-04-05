@@ -94,24 +94,10 @@ module YamlLint
 
     # Check the data in the file or stream
     def check_data(yaml_data, errors_array)
-      valid = check_not_empty?(yaml_data, errors_array)
-      valid &&= check_syntax_valid?(yaml_data, errors_array)
+      valid = check_syntax_valid?(yaml_data, errors_array)
       valid &&= check_overlapping_keys?(yaml_data, errors_array)
 
       valid
-    end
-
-    # Check that the data is not empty
-    def check_not_empty?(yaml_data, errors_array)
-      if yaml_data.empty?
-        errors_array << 'The YAML should not be an empty string'
-        false
-      elsif yaml_data.strip.empty?
-        errors_array << 'The YAML should not just be spaces'
-        false
-      else
-        true
-      end
     end
 
     # Check that the data is valid YAML
@@ -149,6 +135,8 @@ module YamlLint
 
       # Recusively check for duplicate keys
       def parse_recurse(psych_parse_data, is_sequence = false)
+        return if psych_parse_data.nil?
+
         is_key = false
         psych_parse_data.children.each do |n|
           case n.class.to_s
