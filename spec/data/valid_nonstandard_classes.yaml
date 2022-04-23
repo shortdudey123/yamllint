@@ -1,0 +1,11 @@
+range: !ruby/range a..z
+regex: !ruby/regexp "/Marty McFly/i"
+compl: !ruby/object:Complex 3+4i
+timestamp: 2002-05-23T11:25:26.1Z
+colors:
+  - :red
+  - :green
+  - :blue
+  - :cyan
+  - :magenta
+  - :yellow

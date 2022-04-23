@@ -1,0 +1,7 @@
+some_list: &001
+  - *001
+  - *001
+
+some_key: &some_anchor
+  sub_key1: value1
+  sub_key2: *some_anchor
