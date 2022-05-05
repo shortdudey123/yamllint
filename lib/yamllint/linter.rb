@@ -102,7 +102,15 @@ module YamlLint
 
     # Check that the data is valid YAML
     def check_syntax_valid?(yaml_data, errors_array)
-      YAML.safe_load(yaml_data)
+      # For rationale behind the use of unsafe_load, and discussion, see:
+      # https://github.com/shortdudey123/yamllint/issues/43
+      # rubocop:disable Security/YAMLLoad
+      if YAML.respond_to?(:unsafe_load)
+        YAML.unsafe_load(yaml_data)
+      else
+        YAML.load(yaml_data)
+      end
+      # rubocop:enable Security/YAMLLoad
       true
     rescue YAML::SyntaxError => e
       errors_array << e.message
