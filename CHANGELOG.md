@@ -9,7 +9,8 @@ This file is used to list changes made in each version of the YamlLint gem.
 - **[PR #37](https://github.com/shortdudey123/yamllint/pull/37)** - Update trollop to optimist to remove deprecation warnings
 - **[PR #42](https://github.com/shortdudey123/yamllint/pull/42)** - Allow empty YAML files
 - **[PR #44](https://github.com/shortdudey123/yamllint/pull/44)** - Check syntax with unsafe_load / load
-- **[PR #45](https://github.com/shortdudey123/yamllint/pull/44)** - Rescue Psych exceptions
+- **[PR #45](https://github.com/shortdudey123/yamllint/pull/45)** - Rescue Psych exceptions
+- **[PR #46](https://github.com/shortdudey123/yamllint/pull/46)** - Add three valid test files
 
 ## v0.0.9 (2016-09-16)
 - **[PR #24](https://github.com/shortdudey123/yamllint/pull/24)** - Update RSpec raise_error to be more specific
