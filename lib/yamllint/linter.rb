@@ -112,7 +112,7 @@ module YamlLint
       end
       # rubocop:enable Security/YAMLLoad
       true
-    rescue YAML::SyntaxError => e
+    rescue YAML::SyntaxError, Psych::Exception => e
       errors_array << e.message
       false
     end
