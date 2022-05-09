@@ -1,0 +1,19 @@
+default: &my_default
+  foo: 1
+
+one_alternate:
+  <<: *my_default
+
+other_alternate:
+  <<: *my_default
+  foo: 2
+  bar: 3
+
+psych_example:
+  -
+    &F fareref: DOGMA
+    &C currency: GBP
+    &D departure: LAX
+    &A arrival: EDI
+  - { *F: MADF, *C: AUD, *D: SYD, *A: MEL }
+  - { *F: DFSF, *C: USD, *D: JFK, *A: MCO }
