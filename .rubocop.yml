@@ -13,3 +13,7 @@ Metrics/CyclomaticComplexity:
 
 Metrics/MethodLength:
   Max: 26
+
+Style/FrozenStringLiteralComment:
+  Include:
+    - lib/**/*.rb
