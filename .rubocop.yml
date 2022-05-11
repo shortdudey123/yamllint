@@ -2,17 +2,24 @@ AllCops:
   DisplayCopNames: true
 
 Metrics/AbcSize:
-  Max: 36
+  Max: 37
 
 Metrics/BlockLength:
   Exclude:
     - spec/*.rb
 
 Metrics/CyclomaticComplexity:
-  Max: 9
+  Max: 11
 
 Metrics/MethodLength:
-  Max: 26
+  Max: 27
+
+Metrics/ParameterLists:
+  Max: 5
+  MaxOptionalParameters: 4
+
+Metrics/PerceivedComplexity:
+  Max: 9
 
 Style/FrozenStringLiteralComment:
   Include:

@@ -140,7 +140,7 @@ module YamlLint
       private
 
       # Recusively check for duplicate keys
-      def parse_recurse(psych_parse_data, is_sequence = false)
+      def parse_recurse(psych_parse_data, is_sequence = false) # rubocop:disable Style/OptionalBooleanParameter
         return if psych_parse_data.nil?
 
         is_key = false
