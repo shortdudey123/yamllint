@@ -13,6 +13,8 @@ module YamlLint
     attr_accessor :name, :debug, :disable_ext_check, :exclude_paths, :extensions, :fail_on_error, :paths
 
     def initialize(name = :yamllint)
+      super()
+
       @debug = false
       @disable_ext_check = false
       @exclude_paths = []
