@@ -9,7 +9,7 @@ module YamlLint
     attr_reader :opts
 
     # setup CLI options
-    def initialize(argv, stdin = STDIN, stdout = STDOUT, stderr = STDERR,
+    def initialize(argv, stdin = $stdin, stdout = $stdout, stderr = $stderr,
                    kernel = Kernel)
       @argv = argv
       @stdin = stdin
@@ -67,7 +67,7 @@ module YamlLint
     def lint_stream
       linter = YamlLint::Linter.new
       begin
-        linter.check_stream(STDIN)
+        linter.check_stream($stdin)
       rescue StandardError => e
         @stderr.puts e.message
         exit(1)
