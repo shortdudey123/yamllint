@@ -41,6 +41,7 @@ module YamlLint
 
       puts 'YamlLint found no errors' unless linter.errors?
       return unless linter.errors?
+
       linter.display_errors
       puts "YAML lint found #{linter.errors_count} errors"
       @kernel.exit(1)
@@ -55,7 +56,7 @@ module YamlLint
       begin
         puts "Checking #{files_to_check.flatten.length} files"
         linter.check_all(files_to_check)
-      rescue => e
+      rescue StandardError => e
         @stderr.puts e.message
         exit(1)
       end
@@ -67,7 +68,7 @@ module YamlLint
       linter = YamlLint::Linter.new
       begin
         linter.check_stream(STDIN)
-      rescue => e
+      rescue StandardError => e
         @stderr.puts e.message
         exit(1)
       end

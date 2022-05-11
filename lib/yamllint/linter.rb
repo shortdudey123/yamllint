@@ -8,10 +8,7 @@ module YamlLint
   # Runs the actual linting
   #
   class Linter
-    attr_reader :disable_extension_check
-    attr_reader :errors
-    attr_reader :extensions
-    attr_reader :valid_extensions
+    attr_reader :disable_extension_check, :errors, :extensions, :valid_extensions
 
     # Initilize the linter
     # Params:
@@ -36,11 +33,9 @@ module YamlLint
       raise FileNotFoundError, "#{path}: no such file" unless File.exist?(path)
 
       valid = false
-      unless disable_extension_check
-        unless check_filename(path)
-          errors[path] = ['File extension must be .yaml or .yml']
-          return valid
-        end
+      if !disable_extension_check && !check_filename(path)
+        errors[path] = ['File extension must be .yaml or .yml']
+        return valid
       end
 
       File.open(path, 'r') do |f|
@@ -89,6 +84,7 @@ module YamlLint
     def check_filename(filename)
       extension = filename.split('.').last
       return true if valid_extensions.include?(extension)
+
       false
     end
 
@@ -234,6 +230,7 @@ module YamlLint
         YamlLint.logger.debug { "Checking #{full_key.join('.')} for overlap" }
 
         return if @seen_keys.add?(full_key)
+
         YamlLint.logger.debug { "Overlapping key #{full_key.join('.')}" }
         @overlapping_keys << full_key
       end
