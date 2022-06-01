@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'set'
 require 'yaml'
 
@@ -8,10 +10,7 @@ module YamlLint
   # Runs the actual linting
   #
   class Linter
-    attr_reader :disable_extension_check
-    attr_reader :errors
-    attr_reader :extensions
-    attr_reader :valid_extensions
+    attr_reader :disable_extension_check, :errors, :extensions, :valid_extensions
 
     # Initilize the linter
     # Params:
@@ -36,11 +35,9 @@ module YamlLint
       raise FileNotFoundError, "#{path}: no such file" unless File.exist?(path)
 
       valid = false
-      unless disable_extension_check
-        unless check_filename(path)
-          errors[path] = ['File extension must be .yaml or .yml']
-          return valid
-        end
+      if !disable_extension_check && !check_filename(path)
+        errors[path] = ['File extension must be .yaml or .yml']
+        return valid
       end
 
       File.open(path, 'r') do |f|
@@ -89,6 +86,7 @@ module YamlLint
     def check_filename(filename)
       extension = filename.split('.').last
       return true if valid_extensions.include?(extension)
+
       false
     end
 
@@ -112,7 +110,7 @@ module YamlLint
       end
       # rubocop:enable Security/YAMLLoad
       true
-    rescue YAML::SyntaxError, Psych::Exception => e
+    rescue Psych::Exception => e
       errors_array << e.message
       false
     end
@@ -142,7 +140,7 @@ module YamlLint
       private
 
       # Recusively check for duplicate keys
-      def parse_recurse(psych_parse_data, is_sequence = false)
+      def parse_recurse(psych_parse_data, is_sequence = false) # rubocop:disable Style/OptionalBooleanParameter
         return if psych_parse_data.nil?
 
         is_key = false
@@ -234,6 +232,7 @@ module YamlLint
         YamlLint.logger.debug { "Checking #{full_key.join('.')} for overlap" }
 
         return if @seen_keys.add?(full_key)
+
         YamlLint.logger.debug { "Overlapping key #{full_key.join('.')}" }
         @overlapping_keys << full_key
       end

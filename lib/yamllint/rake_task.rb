@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rake'
 require 'rake/tasklib'
 
@@ -8,15 +10,11 @@ module YamlLint
   # RakeTast execution
   #
   class RakeTask < Rake::TaskLib
-    attr_accessor :name
-    attr_accessor :debug
-    attr_accessor :disable_ext_check
-    attr_accessor :exclude_paths
-    attr_accessor :extensions
-    attr_accessor :fail_on_error
-    attr_accessor :paths
+    attr_accessor :name, :debug, :disable_ext_check, :exclude_paths, :extensions, :fail_on_error, :paths
 
     def initialize(name = :yamllint)
+      super()
+
       @debug = false
       @disable_ext_check = false
       @exclude_paths = []

@@ -12,6 +12,7 @@ This file is used to list changes made in each version of the YamlLint gem.
 - **[PR #45](https://github.com/shortdudey123/yamllint/pull/45)** - Rescue Psych exceptions
 - **[PR #46](https://github.com/shortdudey123/yamllint/pull/46)** - Add three valid test files
 - **[PR #47](https://github.com/shortdudey123/yamllint/pull/47)** - Fix readme typo
+- **[PR #48](https://github.com/shortdudey123/yamllint/pull/48)** - Fix rubocop issues
 
 ## v0.0.9 (2016-09-16)
 - **[PR #24](https://github.com/shortdudey123/yamllint/pull/24)** - Update RSpec raise_error to be more specific
